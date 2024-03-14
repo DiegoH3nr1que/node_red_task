@@ -13,14 +13,9 @@ class DadosViewSet(viewsets.ViewSet):
         serializer = DadosCreateSerializer(data=request.data)
         if serializer.is_valid():
             instance = serializer.save()
-            # Verifica se Botao ou Sensor são True e ResetContador é False
-            if instance.Botao or instance.Sensor:
-                instance.ValorContagem += 1
-            if instance.ResetContador:
-                instance.ValorContagem = 0
-            instance.save()
             return Response(DadosSerializer(instance).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
     def retrieve(self, request, pk=None):
         dado = Dados.objects.get(pk=pk)

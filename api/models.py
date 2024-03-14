@@ -7,4 +7,9 @@ class Dados(models.Model):
     ResetContador = models.BooleanField(default=False)
     ValorContagem = models.IntegerField(default=0)
 
-
+    def save(self, *args, **kwargs):
+        if (self.Botao or self.Sensor) and not self.ResetContador:
+            self.ValorContagem += 1
+        elif self.ResetContador:
+            self.ValorContagem = 0
+        super().save(*args, **kwargs)
