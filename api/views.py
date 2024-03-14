@@ -12,13 +12,14 @@ class DadosViewSet(viewsets.ViewSet):
     def create(self, request):
         serializer = DadosCreateSerializer(data=request.data)
         if serializer.is_valid():
+            instance = serializer.save()
             # Verifica se Botao ou Sensor são True e ResetContador é False
-            if serializer.validated_data['Botao'] or serializer.validated_data['Sensor']:
-                serializer.validated_data['ValorContagem'] += 1
-            if serializer.validated_data['ResetContador']:
-                serializer.validated_data['ValorContagem'] = 0
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            if instance.Botao or instance.Sensor:
+                instance.ValorContagem += 1
+            if instance.ResetContador:
+                instance.ValorContagem = 0
+            instance.save()
+            return Response(DadosSerializer(instance).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def retrieve(self, request, pk=None):
