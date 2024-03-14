@@ -8,8 +8,13 @@ class Dados(models.Model):
     ValorContagem = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
-        if (self.Botao or self.Sensor) and not self.ResetContador:
-            self.ValorContagem += 1
-        elif self.ResetContador:
+        if not self.ResetContador:
+            if self.Botao or self.Sensor:
+                ultimo_dado = Dados.objects.last()
+                if ultimo_dado:  # Verifica se existe um último dado
+                    self.ValorContagem = ultimo_dado.ValorContagem + 1
+                else:
+                    self.ValorContagem = 1  # ou comece de 1 se for o primeiro registro
+        else:
             self.ValorContagem = 0
         super().save(*args, **kwargs)

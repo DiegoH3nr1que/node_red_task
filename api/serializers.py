@@ -9,4 +9,4 @@ class DadosSerializer(serializers.ModelSerializer):
 class DadosCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Dados
-        fields = ['Botao', 'Sensor', 'ResetContador']  # Apenas os campos necessários para criar um novo objeto
+        fields = ['Botao', 'Sensor', 'ResetContador', 'ValorContagem']  # Apenas os campos necessários para criar um novo objeto

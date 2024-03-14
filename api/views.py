@@ -34,3 +34,8 @@ class DadosViewSet(viewsets.ViewSet):
         dado = Dados.objects.get(pk=pk)
         dado.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    def destroy_all(self, request):
+        dados = Dados.objects.all()
+        dados.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
